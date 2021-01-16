@@ -6,11 +6,7 @@ module.exports = {
         'node': true,
         'jest': true
     },
-    'extends': 
-        ['eslint:recommended',
-        'plugin:react/recommended',
-        'plugin:cypress/recommended',
-        "plugin:jest/recommended"],
+    'extends': 'eslint:recommended',
     'parserOptions': {
         'ecmaVersion': 12
     },
@@ -21,7 +17,7 @@ module.exports = {
         ],
         'linebreak-style': [
             'error',
-            'unix'
+            'windows'
         ],
         'quotes': [
             'error',

@@ -40,7 +40,7 @@ const createBlog = (title) => {
   cy.get('input[type="submit"]').click()
 }
 
-describe('Blog', function() {
+describe('Blog ', function() {
   beforeEach(function() {
     resetAndCreateUsers()
   })

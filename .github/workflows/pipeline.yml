@@ -1,4 +1,4 @@
-name: deployment pipeline
+name: Deployment pipeline
 
 on:
   push:
@@ -9,38 +9,30 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  deployment_pipeline:
+  simple_deployment_pipeline:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: npm install on backend
-        run: npm install 
-      - name: npm install on frontend
-        run: |
-            cd frontend
-            npm install
+      - name: npm install
+        run: npm install
       - name: lint
-        run: npm run lint
-      - name: build backend
+        run: npm run eslint
+      - name: build
         run: npm run build
-      - name: build frontend
-        run: |
-            cd frontend
-            npm run build  
       - name: test
         run: npm run test
       - name: e2e tests 
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
-          start: npm run start
-          wait-on: http://localhost:3001
-  backend_deploy:
+          start: npm run start-prod
+          wait-on: http://localhost:5000
+  deploy:
     if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
-    needs: deployment_pipeline
+    needs: simple_deployment_pipeline
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
