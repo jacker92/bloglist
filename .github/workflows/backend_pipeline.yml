@@ -35,7 +35,7 @@ jobs:
           wait-on: http://localhost:3001
   backend_deploy:
     if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
-    needs: backend_deployment_pipeline
+    needs: deployment_pipeline
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
