@@ -30,7 +30,6 @@ jobs:
             npm run eslint
       - name: lint frontend
         run: |
-            cd ..
             cd frontend
             npm install
       - name: build
