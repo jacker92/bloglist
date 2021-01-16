@@ -22,7 +22,6 @@ jobs:
             npm install 
       - name: npm install on frontend
         run: |
-            cd ..
             cd frontend
             npm install
       - name: lint backend
