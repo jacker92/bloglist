@@ -32,13 +32,18 @@ jobs:
         run: |
             cd frontend
             npm install
-      - name: build
+      - name: build frontend
         run: |
-          npm run build
           cd frontend
-          npm install
-      - name: test
-        run: npm run test
+          npm run build
+      - name: test backend
+        run: |
+          cd backend
+          npm run test
+      - name: test frontend
+        run: |
+          cd frontend
+          npm run test
       - name: e2e tests 
         uses: cypress-io/github-action@v2
         with:
