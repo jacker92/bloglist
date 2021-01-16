@@ -22,14 +22,6 @@ jobs:
         run: npm run eslint
       - name: build
         run: npm run build
-      - name: build has failed
-        uses: 8398a7/action-slack@v3
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: test
         run: npm run test
       - name: e2e tests 
@@ -60,26 +52,13 @@ jobs:
         run: echo ${{github.event_name == 'push'}}
       - name: Commit messages contains skip
         run: echo ${{ contains(join(github.event.commits.*.message), '#skip') }}
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.33.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
       - name: heroku deployment 
         uses: akhileshns/heroku-deploy@v3.8.9
         if: ${{ github.event_name == 'push' }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: 'pokedex-test-1422'
+          heroku_app_name: 'bloglist-242'
           heroku_email: 'lahtinen.jaakko@gmail.com'
-          healthcheck: "https://pokedex-test-1422.herokuapp.com/health"
+          healthcheck: "https://bloglist-242.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-      - name: new version has been deployed
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          if: success()
