@@ -16,12 +16,29 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: npm install
-        run: npm install
-      - name: lint
-        run: npm run eslint
+      - name: npm install on backend
+        run: |
+            cd backend
+            npm install 
+      - name: npm install on frontend
+        run: |
+            cd ..
+            cd frontend
+            npm install
+      - name: lint backend
+        run: |
+            cd backend
+            npm run eslint
+      - name: lint frontend
+        run: |
+            cd ..
+            cd frontend
+            npm install
       - name: build
-        run: npm run build
+        run: |
+          npm run build
+          cd frontend
+          npm install
       - name: test
         run: npm run test
       - name: e2e tests 
@@ -29,7 +46,7 @@ jobs:
         with:
           command: npm run test:e2e
           start: npm run start-prod
-          wait-on: http://localhost:5000
+          wait-on: http://localhost:3001
   deploy:
     if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
     needs: simple_deployment_pipeline
