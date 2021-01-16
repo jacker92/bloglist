@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
+  backend_deployment_pipeline:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
       - name: npm install
         run: npm install
       - name: lint
-        run: npm run eslint
+        run: npm run lint
       - name: build
         run: npm run build
       - name: test
@@ -28,9 +28,9 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
-          start: npm run start-prod
-          wait-on: http://localhost:5000
-  deploy:
+          start: npm run start
+          wait-on: http://localhost:3001
+  backend_deploy:
     if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
     needs: simple_deployment_pipeline
     runs-on: ubuntu-18.04
