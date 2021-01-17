@@ -7,7 +7,6 @@ on:
       
 jobs:
   uibuild:
-    needs: deployment_prerequisites
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
