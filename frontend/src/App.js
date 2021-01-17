@@ -36,7 +36,6 @@ const App = () => {
     }
     catch (e) {
       console.log(e)
-      alert(e)
       setNotification(e.response.data.error, 'error')
     }
   }
@@ -63,7 +62,6 @@ const App = () => {
   }
 
   const createBlog = async (event, blog) => {
-    alert( blog)
     event.preventDefault()
     try {
       const result = await blogService.create(blog)
