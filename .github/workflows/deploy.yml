@@ -1,0 +1,46 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+      
+jobs:
+  uibuild:
+    needs: deployment_prerequisites
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Create UI Build
+      run: |
+            cd backend
+            npm run build:ui
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add .
+        git commit -m "UI Build" || true
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+  deploy:
+    needs: uibuild
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: heroku deployment 
+        uses: akhileshns/heroku-deploy@v3.8.9
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'bloglist-242'
+          heroku_email: 'lahtinen.jaakko@gmail.com'
+          healthcheck: "https://bloglist-242.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+          appdir: "backend"
