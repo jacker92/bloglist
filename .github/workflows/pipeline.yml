@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
+  deployment_prerequisites:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -58,30 +58,12 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
           SECRET: ${{ secrets.SECRET }}
   deploy:
-    if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
     needs: simple_deployment_pipeline
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: github context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: commits
-        env:
-          COMMITS: ${{ toJson(github.event.commits) }}
-        run: echo "$COMMITS"
-      - name: commit messages
-        env:
-          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
-      - name: Conditions event name is push
-        run: echo ${{github.event_name == 'push'}}
-      - name: Commit messages contains skip
-        run: echo ${{ contains(join(github.event.commits.*.message), '#skip') }}
-      - name: heroku deployment 
+      - name: backend heroku deployment 
         uses: akhileshns/heroku-deploy@v3.8.9
-        if: ${{ github.event_name == 'push' }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'bloglist-242'
@@ -89,3 +71,4 @@ jobs:
           healthcheck: "https://bloglist-242.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
+          appdir: "backend" # <- This will point to the api folder in your project
