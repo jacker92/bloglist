@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: backend heroku deployment 
+      - name: heroku deployment 
         uses: akhileshns/heroku-deploy@v3.8.9
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -71,4 +71,4 @@ jobs:
           healthcheck: "https://bloglist-242.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-          appdir: "backend" # <- This will point to the api folder in your project
+          appdir: "backend"
