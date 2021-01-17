@@ -65,7 +65,7 @@ jobs:
       with:
         persist-credentials: false
         fetch-depth: 0
-    - name: Create local changes
+    - name: Create UI Build
       run: |
             cd backend
             npm run build:ui
@@ -73,7 +73,8 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -m "UI Build" -a
+        git add .
+        git commit -m "UI Build" || true
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
