@@ -63,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: build ui
-        run:
+        run: |
             cd backend
             npm run deploy:full
       - name: heroku deployment 
