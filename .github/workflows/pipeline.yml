@@ -45,15 +45,15 @@ jobs:
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
           MY_NAME: ${{ secrets.MY_NAME }}
-          NODE_ENV: 'test'
           SECRET: ${{ secrets.SECRET }}
       - name: test frontend
         run: |
           cd frontend
           npm run test
-      - name: e2e tests 
+      - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
+          working-directory: frontend
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:3001
