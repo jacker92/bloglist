@@ -49,9 +49,6 @@ jobs:
           cd frontend
           npm run test
       - name: e2e tests
-        run: | 
-          cd backend
-          npm run start
         uses: cypress-io/github-action@v2
         with:
           working-directory: frontend
