@@ -41,8 +41,14 @@ jobs:
           cd backend
           npm run test
         env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
-          MY_NAME: ${{ secrets.MY_NAME }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
+      - name: run backend
+        run: |
+          cd backend
+          npm run start
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
       - name: test frontend
         run: |
