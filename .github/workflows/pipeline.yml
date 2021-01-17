@@ -36,21 +36,15 @@ jobs:
         run: |
           cd frontend
           npm run build
-      - name: Create backend env file
-        run: |
-          cd backend
-          touch .env
-          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
-          echo TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} >> .env
-          echo MY_NAME=${{ secrets.MY_NAME }} >> .env
-          cat .env
-          pwd
       - name: test backend
         run: |
           pwd
           cd backend
           ls -la
           npm run test
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
+          MY_NAME: ${{ secrets.MY_NAME }}
       - name: test frontend
         run: |
           cd frontend
