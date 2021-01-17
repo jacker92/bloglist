@@ -53,7 +53,7 @@ jobs:
         with:
           working-directory: frontend
           command: npm run test:e2e
-          start: npm run start-prod
+          start: npm run start
           wait-on: http://localhost:3001
   deploy:
     if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
