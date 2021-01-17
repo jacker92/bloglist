@@ -46,6 +46,7 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
           MY_NAME: ${{ secrets.MY_NAME }}
           NODE_ENV: 'test'
+          SECRET: ${{ secrets.SECRET }}
       - name: test frontend
         run: |
           cd frontend
