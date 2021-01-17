@@ -57,15 +57,33 @@ jobs:
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
           SECRET: ${{ secrets.SECRET }}
-  deploy:
+  uibuild:
     needs: deployment_prerequisites
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - name: build ui
-        run: |
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Create local changes
+      run: |
             cd backend
-            npm run deploy:full
+            npm run build:ui
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "UI Build" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+  deploy:
+    needs: uibuild
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
       - name: heroku deployment 
         uses: akhileshns/heroku-deploy@v3.8.9
         with:
