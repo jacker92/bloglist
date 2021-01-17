@@ -10,6 +10,7 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 
 beforeEach(async () => {
+    console.log('MY NAME IS', process.env.MY_NAME);
     await User.deleteMany({})
     await Blog.deleteMany({})
 
