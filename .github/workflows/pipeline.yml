@@ -41,19 +41,9 @@ jobs:
           cd backend
           npm run test
         env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          SECRET: ${{ secrets.SECRET }}
-      - name: run backend
-        run: |
-          cd backend
-          npm run start
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
           SECRET: ${{ secrets.SECRET }}
       - name: test frontend
-        run: |
-          cd frontend
-          npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
@@ -61,6 +51,9 @@ jobs:
           command: npm run test:e2e
           start: npm run start
           wait-on: http://localhost:3000
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
+          SECRET: ${{ secrets.SECRET }}
   deploy:
     if: ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
     needs: simple_deployment_pipeline
