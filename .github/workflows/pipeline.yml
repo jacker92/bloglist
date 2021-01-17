@@ -58,7 +58,7 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }} 
           SECRET: ${{ secrets.SECRET }}
   deploy:
-    needs: simple_deployment_pipeline
+    needs: deployment_prerequisites
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
