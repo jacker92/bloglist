@@ -16,16 +16,23 @@ const DisplayForm = ({ user, blogs, logout, setLike, removeBlog }) => {
 
   return (
     <div id='blogs'>
-      <p><b>{user.username}</b> has logged in</p>
+      <p>
+        <b>{user.username}</b> has logged in
+      </p>
       <button onClick={logout}>Logout</button>
       {blogs
         .sort(compareOnLikes)
         .map(blog =>
-          <Blog key={blog.id} blog={blog} setLike={setLike} user={user} removeBlog={removeBlog} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            setLike={setLike}
+            user={user}
+            removeBlog={removeBlog}
+          />
         )}
     </div>
   )
-
 }
 
 DisplayForm.propTypes = {

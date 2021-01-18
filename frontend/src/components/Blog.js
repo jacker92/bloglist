@@ -31,9 +31,11 @@ const Blog = ({ blog, setLike, user, removeBlog }) => {
   if (visible) {
     return (
       <div style={blogStyle}>
-        <p onMouseEnter={onMouseEnterParagraph}
+        <p
+          onMouseEnter={onMouseEnterParagraph}
           onMouseLeave={onMouseLeaveParagraph}
-          onClick={() => setVisible(!visible)}>
+          onClick={() => setVisible(!visible)}
+        >
           <b>{blog.title}</b>
         </p>
         {blog.url}<br />
